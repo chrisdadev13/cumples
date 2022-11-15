@@ -1,7 +1,12 @@
 import react from "react";
+import Main from "./components/Main";
 
 const App = () => {
-  return <h1>Hola Mundo</h1>;
+  return (
+    <>
+      <Main />
+    </>
+  );
 };
 
 export default App;

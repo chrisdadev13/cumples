@@ -1,7 +1,6 @@
-import react, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
-  Container,
   Card,
   CardBody,
   Image,
@@ -14,7 +13,6 @@ import {
   ButtonGroup,
   Grid,
 } from "@chakra-ui/react";
-import { BsBag } from "react-icons/bs";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./Navbar";
 import Homepage from "./pages/Homepage";
@@ -26,13 +24,8 @@ const Main = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [product, setProduct] = useState({});
-  const breakpoints = {
-    sm: "30em",
-    md: "48em",
-    lg: "62em",
-    xl: "80em",
-    "2xl": "96em",
-  };
+
+  const previusData = useRef({ men, women });
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/category/men's clothing")
@@ -40,15 +33,28 @@ const Main = () => {
       .then((json) => setMen(json));
     fetch("https://fakestoreapi.com/products/category/women's clothing")
       .then((res) => res.json())
-      .then((json) => setWomen(json))
-      .then(() => setData([...men, ...women]));
+      .then((json) => setWomen(json));
   }, []);
+
+  useEffect(() => {
+    if (
+      previusData.current.men !== men &&
+      previusData.current.women !== women
+    ) {
+      setData([...men, ...women]);
+    }
+  }, [men, women]);
 
   const addToCart = (event) => {
     const direction = parseInt(event.target.getAttribute("data"));
-    setCart([...cart, data[direction]]);
-    console.log(cart);
-    console.log(total);
+    setProduct(data[direction]);
+    setProduct((current) => {
+      return {
+        ...current,
+        quantity: 1,
+      };
+    });
+    console.log(product);
   };
 
   return (

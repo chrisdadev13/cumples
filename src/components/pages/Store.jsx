@@ -6,7 +6,7 @@ const Store = ({ inventory, addToCart }) => {
   return (
     <>
       <Heading as="h2" px="44" mb="5">
-        Products
+        Store
       </Heading>
       <Grid
         px={{ "2xl": "40", xl: "40", lg: "36", md: "36", sm: "30" }}

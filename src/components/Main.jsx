@@ -45,6 +45,10 @@ const Main = () => {
     }
   }, [men, women]);
 
+  const alreadyOnCart = (cart, product) => {
+    return cart.some((item) => item.id === product.id);
+  };
+
   const addToCart = (event) => {
     const direction = parseInt(event.target.getAttribute("data"));
     setProduct(data[direction]);
@@ -54,7 +58,13 @@ const Main = () => {
         quantity: 1,
       };
     });
-    console.log(product);
+
+    if (alreadyOnCart(cart, product)) {
+      let direction = cart.findIndex((item) => item.id === product.id);
+      cart[direction].quantity += 1;
+    } else {
+      setCart([...cart, product]);
+    }
   };
 
   return (
@@ -66,7 +76,6 @@ const Main = () => {
         px={{ "2xl": "40", xl: "40", lg: "36", md: "36", sm: "30" }}
         templateRows="repeat(2, 1fr)"
         templateColumns={{
-          md: "repeat(3, 1fr)",
           xl: "repeat(5, 1fr)",
           lg: "repeat(4, 1fr)",
           md: "repeat(2, 1fr)",

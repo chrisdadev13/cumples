@@ -28,10 +28,10 @@ const Navbar = () => {
       </Box>
       <Spacer />
       <Box display="flex">
-        <Link mx="5">
+        <Link mx="5" href="/">
           <Text>Store</Text>
         </Link>
-        <Link mr="3">
+        <Link mr="3" href="/Cart">
           <Text display="flex" alignItems="center">
             Cart <BsBag style={{ marginLeft: "3px" }} />
           </Text>

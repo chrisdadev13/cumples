@@ -20,7 +20,6 @@ import {
   NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import CartItem from "../utils/CartItem";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);

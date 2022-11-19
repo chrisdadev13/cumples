@@ -1,20 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Box } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
-import { Switch } from "react-router";
 import Navbar from "./Navbar";
 import Store from "./pages/Store";
 import Cart from "./pages/Cart";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cart";
+import { useSelector } from "react-redux";
 
 const Main = () => {
   const [men, setMen] = useState([]);
   const [women, setWomen] = useState([]);
   const [data, setData] = useState([]);
-  const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [product, setProduct] = useState({});
 
   const previusData = useRef({ men, women });
+
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/category/men's clothing")
@@ -34,15 +38,7 @@ const Main = () => {
     }
   }, [men, women]);
 
-  useEffect(() => {
-    window.localStorage.setItem("data", JSON.stringify(cart));
-  }, [cart]);
-
-  const alreadyOnCart = (cart, product) => {
-    return cart.some((item) => item.id === product.id);
-  };
-
-  const addToCart = (event) => {
+  const handleAddToCart = (event) => {
     const direction = parseInt(event.target.getAttribute("data"));
     setProduct(data[direction]);
     setProduct((current) => {
@@ -51,16 +47,7 @@ const Main = () => {
         quantity: 1,
       };
     });
-
-    if (alreadyOnCart(cart, product)) {
-      let direction = cart.findIndex((item) => item.id === product.id);
-      cart[direction].quantity += 1;
-      setTotal(total + cart[direction].price * cart[direction].quantity);
-    } else {
-      setCart([...cart, product]);
-      setTotal(total + product.price);
-    }
-    console.log("Hola");
+    if (Object.keys(product).length !== 0) dispatch(addToCart(product));
   };
 
   useEffect(() => {
@@ -75,11 +62,10 @@ const Main = () => {
       <Routes>
         <Route
           path="/"
-          element={<Store inventory={data} addToCart={addToCart} />}
+          element={<Store inventory={data} addToCart={handleAddToCart} />}
         />
         <Route path="/Cart" element={<Cart cart={cart} />} />
       </Routes>
-      <p style={{ marginLeft: "20px" }}>{Math.trunc(total)}</p>
     </Box>
   );
 };

@@ -1,22 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Box,
-  Card,
-  CardBody,
-  Image,
-  Stack,
-  Text,
-  CardFooter,
-  Button,
-  Divider,
-  Heading,
-  ButtonGroup,
-  Grid,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
+import { Switch } from "react-router";
 import Navbar from "./Navbar";
-import Homepage from "./pages/Homepage";
-import ProductCard from "./utils/Card";
+import Store from "./pages/Store";
+import Cart from "./pages/Cart";
 
 const Main = () => {
   const [men, setMen] = useState([]);
@@ -46,6 +34,10 @@ const Main = () => {
     }
   }, [men, women]);
 
+  useEffect(() => {
+    window.localStorage.setItem("data", JSON.stringify(cart));
+  }, [cart]);
+
   const alreadyOnCart = (cart, product) => {
     return cart.some((item) => item.id === product.id);
   };
@@ -68,32 +60,25 @@ const Main = () => {
       setCart([...cart, product]);
       setTotal(total + product.price);
     }
+    console.log("Hola");
   };
+
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
 
   return (
     <Box>
       <Box w="full" shadow="md" px="40" mb="20">
         <Navbar />
       </Box>
-      <Grid
-        px={{ "2xl": "40", xl: "40", lg: "36", md: "36", sm: "30" }}
-        templateRows="repeat(2, 1fr)"
-        templateColumns={{
-          xl: "repeat(5, 1fr)",
-          lg: "repeat(4, 1fr)",
-          md: "repeat(2, 1fr)",
-          sm: "repeat(1, 1fr)",
-        }}
-        gap="2"
-      >
-        {data.map((product, index) => (
-          <ProductCard
-            product={product}
-            index={index}
-            onCardClick={addToCart}
-          />
-        ))}
-      </Grid>
+      <Routes>
+        <Route
+          path="/"
+          element={<Store inventory={data} addToCart={addToCart} />}
+        />
+        <Route path="/Cart" element={<Cart cart={cart} />} />
+      </Routes>
       <p style={{ marginLeft: "20px" }}>{Math.trunc(total)}</p>
     </Box>
   );

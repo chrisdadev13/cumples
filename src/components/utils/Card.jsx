@@ -12,7 +12,7 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 
-const ProductCard = ({ product, index, onCardClick }) => {
+const ProductCard = ({ product, index, key, onCardClick }) => {
   return (
     <Card maxW="90%" maxH="7xl" shadow="lg" mx="2" key={index}>
       <CardBody>

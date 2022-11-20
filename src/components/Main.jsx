@@ -51,7 +51,7 @@ const Main = () => {
     });
     if (Object.keys(product).length !== 0) dispatch(addToCart(product));
     toast({
-      title: "Product added.",
+      title: "Product added successfully.",
       description: "The product was added to your shopping cart",
       status: "success",
       duration: 3000,

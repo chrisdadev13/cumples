@@ -86,7 +86,9 @@ const Cart = ({ onClickAdd, onClickRest }) => {
               </Tr>
             ))}
           </Tbody>
-          <Text>Total: ${Math.trunc(getTotal())}</Text>
+          <Text>
+            {getTotal() === 0 ? " " : "Total: $" + Math.trunc(getTotal())}
+          </Text>
         </Table>
       </TableContainer>
       <Button mt="5" onClick={() => console.log(cart)} colorScheme={"purple"}>

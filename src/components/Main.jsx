@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Toast, useToast } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./Navbar";
 import Store from "./pages/Store";
@@ -19,6 +19,8 @@ const Main = () => {
 
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+
+  const toast = useToast();
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products/category/men's clothing")
@@ -48,6 +50,13 @@ const Main = () => {
       };
     });
     if (Object.keys(product).length !== 0) dispatch(addToCart(product));
+    toast({
+      title: "Product added.",
+      description: "The product was added to your shopping cart",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const handleAddItem = (event) => {

@@ -5,13 +5,15 @@ import ProductCard from "../utils/Card";
 const Store = ({ inventory, addToCart }) => {
   return (
     <>
-      <Heading
-        as="h2"
-        px={{ "2xl": "44", xl: "44", lg: "44", sm: "12", md: "24" }}
-        mb="5"
-      >
-        Store
-      </Heading>
+      <Box px="5">
+        <Heading
+          as="h2"
+          px={{ "2xl": "44", xl: "44", lg: "44", md: "44", sm: "20" }}
+          mb="5"
+        >
+          Store
+        </Heading>
+      </Box>
       <Grid
         px={{ "2xl": "40", xl: "40", lg: "36", md: "36", sm: "30" }}
         templateRows="repeat(2, 1fr)"

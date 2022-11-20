@@ -5,7 +5,11 @@ import ProductCard from "../utils/Card";
 const Store = ({ inventory, addToCart }) => {
   return (
     <>
-      <Heading as="h2" px="44" mb="5">
+      <Heading
+        as="h2"
+        px={{ "2xl": "44", xl: "44", lg: "44", sm: "12", md: "24" }}
+        mb="5"
+      >
         Store
       </Heading>
       <Grid

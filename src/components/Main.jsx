@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import Store from "./pages/Store";
 import Cart from "./pages/Cart";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/cart";
+import { addToCart, decrementQuantity, incrementQuantity } from "../redux/cart";
 import { useSelector } from "react-redux";
 
 const Main = () => {
@@ -50,9 +50,17 @@ const Main = () => {
     if (Object.keys(product).length !== 0) dispatch(addToCart(product));
   };
 
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
+  const handleAddItem = (event) => {
+    const direction = parseInt(event.target.id);
+    const item = cart[direction];
+    dispatch(incrementQuantity(item));
+  };
+
+  const handleRestItem = (event) => {
+    const direction = parseInt(event.target.id);
+    const item = cart[direction];
+    dispatch(decrementQuantity(item));
+  };
 
   return (
     <Box>
@@ -64,7 +72,16 @@ const Main = () => {
           path="/"
           element={<Store inventory={data} addToCart={handleAddToCart} />}
         />
-        <Route path="/Cart" element={<Cart cart={cart} />} />
+        <Route
+          path="/Cart"
+          element={
+            <Cart
+              cart={cart}
+              onClickAdd={handleAddItem}
+              onClickRest={handleRestItem}
+            />
+          }
+        />
       </Routes>
     </Box>
   );

@@ -18,18 +18,30 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Button,
+  Tfoot,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
-const Cart = () => {
+const Cart = ({ onClickAdd, onClickRest }) => {
   const cart = useSelector((state) => state.cart);
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
+  const [total, setTotal] = useState();
+
+  const getTotal = () => {
+    let priceSum = 0;
+    let quantity = 0;
+    for (let i = 0; i < cart.length; i++) {
+      priceSum += cart[i].price;
+    }
+    for (let j = 0; j < cart.length; j++) {
+      quantity += cart[j].quantity;
+    }
+    return priceSum * quantity;
+  };
   return (
-    <Box px="40">
+    <Box px={{ sm: 0, lg: 40, "2xl": 40, xl: 40 }}>
       <Heading>Cart</Heading>
-      <TableContainer>
+      <TableContainer mt="5">
         <Table>
           <Thead>
             <Tr>
@@ -40,8 +52,8 @@ const Cart = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {cart?.map((item) => (
-              <Tr>
+            {cart?.map((item, index) => (
+              <Tr key={index}>
                 <Td display="flex" alignItems="center">
                   <Avatar src={item.image} mr="3" />
                   <Text>{item.title}</Text>
@@ -53,8 +65,18 @@ const Cart = () => {
                   <NumberInput size="xs" maxW={16} defaultValue={item.quantity}>
                     <NumberInputField />
                     <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
+                      <NumberIncrementStepper
+                        bg="green.200"
+                        children="+"
+                        id={index}
+                        onClick={onClickAdd}
+                      />
+                      <NumberDecrementStepper
+                        bg="pink.200"
+                        children="-"
+                        id={index}
+                        onClick={onClickRest}
+                      />
                     </NumberInputStepper>
                   </NumberInput>
                 </Td>
@@ -64,8 +86,12 @@ const Cart = () => {
               </Tr>
             ))}
           </Tbody>
+          <Text>Total: ${Math.trunc(getTotal())}</Text>
         </Table>
       </TableContainer>
+      <Button mt="5" onClick={() => console.log(cart)} colorScheme={"purple"}>
+        Checkout
+      </Button>
     </Box>
   );
 };

@@ -62,7 +62,13 @@ const Cart = ({ onClickAdd, onClickRest }) => {
                   <Text>${item.price}</Text>
                 </Td>
                 <Td>
-                  <NumberInput size="xs" maxW={16} defaultValue={item.quantity}>
+                  <NumberInput
+                    readOnly={true}
+                    size="xs"
+                    maxW={16}
+                    defaultValue={item.quantity}
+                    value={item.quantity}
+                  >
                     <NumberInputField />
                     <NumberInputStepper>
                       <NumberIncrementStepper
@@ -81,7 +87,7 @@ const Cart = ({ onClickAdd, onClickRest }) => {
                   </NumberInput>
                 </Td>
                 <Td>
-                  <Text>${item.price * item.quantity}</Text>
+                  <Text>${Math.trunc(item.price * item.quantity)}</Text>
                 </Td>
               </Tr>
             ))}
